@@ -7,7 +7,7 @@ echo "=== CONFIGURACIÓN DE KIOSCO ==="
 apt update && apt upgrade -y
 
 # 2. Instalar paquetes necesarios
-apt install -y x11-xserver-utils xdotool unclutter openssh-server fail2ban x11vnc lightdm unclutter firefox-esr apache2
+apt install -y x11-xserver-utils xdotool unclutter openssh-server fail2ban x11vnc lightdm unclutter firefox-esr apache2 fluxbox
 
 
 # 3. Configurar autologin
