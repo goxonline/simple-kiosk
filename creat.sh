@@ -47,9 +47,10 @@ EOF
 
 # 4. Crear usuario kiosk
 useradd -m -s /bin/bash kiosk
-PASS = `kiosk:$(openssl rand -base64 12)`
+PASS=`kiosk:$(openssl rand -base64 12)`
 echo $PASS
-echo "kiosk:$(openssl rand -base64 12)" | chpasswd
+echo $PASS | chpasswd
+#echo "kiosk:$(openssl rand -base64 12)" | chpasswd
 passwd -l kiosk
 
 cat > /home/kiosk/.fluxbox/startup << 'EOF'
