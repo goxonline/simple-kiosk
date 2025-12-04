@@ -50,8 +50,15 @@ useradd -m -s /bin/bash kiosk
 PASS=`kiosk:$(openssl rand -base64 12)`
 echo $PASS
 echo $PASS | chpasswd
-#echo "kiosk:$(openssl rand -base64 12)" | chpasswd
+#echo "kiosk:$PASS" | chpasswd
 passwd -l kiosk
+echo "##########################"
+echo "IMPORTANT!"
+echo "Save this user and password and keep safe."
+echo "Username: kiosk"
+echo "Password: $PASS"
+echo "Note: This is the user and password for Samba and SSH."
+echo "##########################"
 
 cat > /home/kiosk/.fluxbox/startup << 'EOF'
 #!/bin/sh
