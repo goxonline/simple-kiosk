@@ -9,13 +9,6 @@ apt update && apt upgrade -y
 # 2. Instalar paquetes necesarios
 apt install -y x11-xserver-utils xdotool unclutter openssh-server fail2ban x11vnc lightdm unclutter firefox-esr apache2 fluxbox
 
-chmod +x /root/samba.sh
-
-#ejecutmos
-/root/samba.sh
-
-# password de samba.
-
 
 # 3. Configurar autologin
 cat > /etc/lightdm/lightdm.conf << EOF
@@ -28,7 +21,7 @@ EOF
 
 # 4. Crear usuario kiosk
 useradd -m -s /bin/bash kiosk
-PASS=`openssl rand -base64 12`
+PASS=`openssl rand -base64 12 | tr -dc 'a-zA-Z0-9' | cut -c1-16`
 USERPASS="kiosk:$PASS"
 echo $USERPASS | chpasswd
 #echo "kiosk:$PASS" | chpasswd
@@ -53,9 +46,21 @@ else
 fi
 EOF
 
+chmod +x /root/samba.sh
+
+#ejecutmos
+/root/samba.sh
+
+# Borramos en script de samba
+rm /root/samba.sh
+# password de samba.
 echo -e "$PASS\n$PASS" | smbpasswd -a kiosk -s
 
 chown kiosk: /var/www/html -R 
+
+# REiniciamos SAMBA.
+
+service samba* restart
 
 cat > /home/kiosk/.fluxbox/startup << 'EOF'
 #!/bin/sh
