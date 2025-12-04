@@ -33,6 +33,8 @@ chmod +x /root/samba.sh
 #ejecutmos
 /root/samba.sh
 
+# password de samba.
+
 
 # 3. Configurar autologin
 cat > /etc/lightdm/lightdm.conf << EOF
@@ -45,6 +47,8 @@ EOF
 
 # 4. Crear usuario kiosk
 useradd -m -s /bin/bash kiosk
+PASS = `kiosk:$(openssl rand -base64 12)`
+echo $PASS
 echo "kiosk:$(openssl rand -base64 12)" | chpasswd
 passwd -l kiosk
 
