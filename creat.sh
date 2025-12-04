@@ -11,10 +11,6 @@ apt install -y x11-xserver-utils xdotool unclutter openssh-server fail2ban x11vn
 
 chmod +x /root/samba.sh
 
-#ejecutmos
-/root/samba.sh
-
-# password de samba.
 
 
 # 3. Configurar autologin
@@ -28,10 +24,9 @@ EOF
 
 # 4. Crear usuario kiosk
 useradd -m -s /bin/bash kiosk
-PASS=`kiosk:$(openssl rand -base64 12)`
-echo $PASS
-echo $PASS | chpasswd
-#echo "kiosk:$PASS" | chpasswd
+PASS=`openssl rand -base64 12`
+#echo $PASS | chpasswd
+echo "kiosk:$PASS" | chpasswd
 passwd -l kiosk
 echo "##########################"
 echo "IMPORTANT!"
@@ -60,6 +55,10 @@ else
 fi
 EOF
 
+#ejecutmos
+/root/samba.sh
+
+# password de samba.
 echo -e "$PASS" | sudo smbpasswd -a kiosk -s
 
 cat > /home/kiosk/.fluxbox/startup << 'EOF'
