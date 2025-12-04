@@ -9,6 +9,30 @@ apt update && apt upgrade -y
 # 2. Instalar paquetes necesarios
 apt install -y x11-xserver-utils xdotool unclutter openssh-server fail2ban x11vnc lightdm unclutter firefox-esr apache2 fluxbox
 
+# Instalamos Samba 
+apt install samba samba-common-bin
+
+cat > /root/samba.sh << 'EOF'
+#!/bin/bash
+
+SMBCONF="/etc/samba/smb.conf"
+INCLUDE_LINE="include = /etc/samba/smb.conf.local"
+
+# Verificar si ya existe
+if grep -q "^include.*smb.conf.local" "$SMBCONF"; then
+    echo "La línea include ya existe en $SMBCONF"
+else
+    # Agregar después de [global]
+    sed -i '/^\[global\]/a\    '"$INCLUDE_LINE" "$SMBCONF"
+    echo "Línea include agregada automáticamente"
+fi
+EOF
+
+chmod +x /root/samba.sh
+
+#ejecutmos
+/root/samba.sh
+
 
 # 3. Configurar autologin
 cat > /etc/lightdm/lightdm.conf << EOF
@@ -113,3 +137,6 @@ wait
 EOF
 
 chown kiosk: /home/kiosk/.fluxbox/startup 
+init 3
+init 5
+
