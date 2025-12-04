@@ -33,13 +33,6 @@ USERPASS="kiosk:$PASS"
 echo $USERPASS | chpasswd
 #echo "kiosk:$PASS" | chpasswd
 passwd -l kiosk
-echo "##########################"
-echo "IMPORTANT!"
-echo "Save this user and password and keep safe."
-echo "Username: kiosk"
-echo "Password: $PASS"
-echo "Note: This is the user and password for Samba and SSH."
-echo "##########################"
 
 # Instalamos Samba 
 apt install samba samba-common-bin
@@ -60,7 +53,9 @@ else
 fi
 EOF
 
-echo -e "$PASS" | smbpasswd -a kiosk -s
+echo -e "$PASS\n$PASS" | smbpasswd -a kiosk -s
+
+chown kiosk: /var/www/html -R 
 
 cat > /home/kiosk/.fluxbox/startup << 'EOF'
 #!/bin/sh
@@ -151,5 +146,16 @@ wait
 EOF
 
 chown kiosk: /home/kiosk/.fluxbox/startup 
+clear
+echo ""
+echo "IMPORTANT!"
+echo "Save this user and password and keep safe."
+echo "Username: kiosk"
+echo "Password: $PASS"
+echo "Note: This is the user and password for Samba and SSH."
+echo ""
+read -n 1 -s -r -p "Presiona cualquier tecla para continuar..."
+echo "Restarting graphic engine..."
 init 3
+sleep 5
 init 5
