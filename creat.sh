@@ -120,7 +120,7 @@ sleep 3  # Esperar que Fluxbox se inicialice
 # ========================================
 
 # OPCIÓN 1: Firefox (Recomendado)
-#firefox --kiosk --private-window http://tu-pagina-kiosco.com &
+firefox --kiosk --private-window http://tu-pagina-kiosco.com &
 
 # OPCIÓN 2: Chromium
 # chromium-browser --kiosk --incognito --no-first-run --disable-translate http://tu-pagina.com &
