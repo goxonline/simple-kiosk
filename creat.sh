@@ -150,6 +150,11 @@ done
 wait
 EOF
 
+# 
+#Enable lughtdm para raspberry
+#
+systemctl enable --now lightdm
+
 chown kiosk: /home/kiosk/.fluxbox/startup 
 clear
 echo ""
