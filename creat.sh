@@ -62,6 +62,21 @@ chown kiosk: /var/www/html -R
 
 service samba* restart
 
+# Es raspbian?
+
+if command -v lsb_release >/dev/null 2>&1; then
+    OS_ID=$(lsb_release -i | cut -f2 | tr '[:upper:]' '[:lower:]')
+    if [ "$OS_ID" = "raspbian" ]; then
+        echo "Sistema Raspbian detectado. Ejecutando configuración..."
+        sudo raspi-config nonint do_boot_behaviour B4
+    else
+        echo "El sistema no es Raspbian (ID: $OS_ID). No se ejecutó ningún comando."
+    fi
+else
+    echo "El comando lsb_release no está disponible. No se puede verificar el sistema."
+fi
+
+
 cat > /home/kiosk/.fluxbox/startup << 'EOF'
 #!/bin/sh
 # KIOSCO CONFIGURATION - FLUXBOX
